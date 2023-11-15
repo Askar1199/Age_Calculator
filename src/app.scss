@@ -1,0 +1,21 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background: #A0D7FF;
+}
+
+@mixin mobile{
+    @media (max-width:638px){
+        @content
+    }
+
+};
+
+@mixin mobileSm{
+    @media (max-width:576px){
+        @content
+    }
+}
