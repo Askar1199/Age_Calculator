@@ -2,7 +2,8 @@ import "./calculator.scss";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 import imageC from "../../assets/imahe.png";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useState } from "react";
+import {  useEffect, useState } from "react";
+
 
 interface datas {
   date: string | any;
@@ -10,6 +11,8 @@ interface datas {
 
 const calculator = () => {
   const [value, setValue] = useState<datas[]>([]);
+
+
   const {
     register,
     handleSubmit,
@@ -19,13 +22,24 @@ const calculator = () => {
 
   const submitE: SubmitHandler<datas> = (data) => {
     setValue([data]);
-    // console.log(value);
+   
+    
     reset();
   };
-  const valueGet = () => {
-    console.log(value[0]);
-  };
-  valueGet();
+  
+  useEffect(()=>{
+    const dateObject = new Date(value[0]?.date);
+
+    // Extract the components
+    const year = dateObject.getFullYear();
+    const month = dateObject.getMonth() + 1; // Month is zero-indexed, so add 1
+    const day = dateObject.getDate();
+
+    console.log(`Year: ${year}, Month: ${month}, Day: ${day}`);
+  },[value])
+  
+
+
 
   return (
     <>
@@ -42,6 +56,7 @@ const calculator = () => {
                     <input
                       type="date"
                       className="date"
+                      id="dataValue"
                       {...register("date", { required: true })}
                     />
                     {errors.date && (
