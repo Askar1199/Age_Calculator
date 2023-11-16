@@ -29,32 +29,36 @@ const calculator = () => {
   };
 
   useEffect(() => {
-    const dateObject = new Date(value[0]?.date);
-    const today = new Date();
+    const exam = value[0]?.date;
 
-    const year = dateObject.getFullYear();
-    const month = dateObject.getMonth() + 1; // Month is zero-indexed, so add 1
-    const day = dateObject.getDate();
+    if (exam !== undefined) {
+      const dateObject = new Date(exam);
+      const today = new Date();
 
-    let todayDay = today.getDate();
-    let todayMonth = today.getMonth() + 1;
-    let todayYear = today.getFullYear();
+      const year = dateObject.getFullYear();
+      const month = dateObject.getMonth() + 1; // Month is zero-indexed, so add 1
+      const day = dateObject.getDate();
 
-    let months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      let todayDay = today.getDate();
+      let todayMonth = today.getMonth() + 1;
+      let todayYear = today.getFullYear();
 
-    if (day > todayDay) {
-      todayDay = todayDay + months[todayMonth - 1];
+      let months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+      if (day > todayDay) {
+        todayDay = todayDay + months[todayMonth - 1];
+      }
+      if (month > todayMonth) {
+        todayMonth = todayMonth + 12;
+        todayYear = todayYear - 1;
+      }
+
+      let resultDay = todayDay - day;
+      let resultMonth = todayMonth - month;
+      let resultYear = todayYear - year;
+
+      setAge({ days: resultDay, months: resultMonth, years: resultYear });
     }
-    if (month > todayMonth) {
-      todayMonth = todayMonth + 12;
-      todayYear = todayYear - 1;
-    }
-
-    let resultDay = todayDay - day;
-    let resultMonth = todayMonth - month;
-    let resultYear = todayYear - year;
-
-    setAge({ days: resultDay, months: resultMonth, years: resultYear });
   }, [value]);
 
   return (
@@ -89,45 +93,18 @@ const calculator = () => {
                 </div>
               </form>
               <div className="resultCont">
-                {age !== null ? (
-                  <>
-                    <div className="result">
-                      <p>
-                        {age?.years !== undefined ? age.years.toString() : "-"}
-                      </p>
-                      <span>Years</span>
-                    </div>
-                    <div className="result">
-                      <p>
-                        {age?.months !== undefined
-                          ? age.months.toString()
-                          : "-"}
-                      </p>
-                      <span>Months</span>
-                    </div>
-                    <div className="result">
-                      <p>
-                        {age?.days !== undefined ? age.days.toString() : "-"}
-                      </p>
-                      <span>Days</span>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="result">
-                      <p>-</p>
-                      <span>Years</span>
-                    </div>
-                    <div className="result">
-                      <p>-</p>
-                      <span>Months</span>
-                    </div>
-                    <div className="result">
-                      <p>-</p>
-                      <span>Days</span>
-                    </div>
-                  </>
-                )}
+                <div className="result">
+                  <p>{age ? age.years : "-"}</p>
+                  <span>Years</span>
+                </div>
+                <div className="result">
+                  <p>{age ? age.months : "-"}</p>
+                  <span>Months</span>
+                </div>
+                <div className="result">
+                  <p>{age ? age.days : "-"}</p>
+                  <span>Days</span>
+                </div>
               </div>
             </div>
           </div>
