@@ -1,4 +1,4 @@
-import "./App.scss";
+import "./app.scss";
 import Calculator from "./components/calculator";
 
 function App() {
